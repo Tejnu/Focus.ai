@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focus.ai – Image Authenticity Verification</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">Focus<span class="logo-dot">.ai</span></span>
+      </div>
+      <p class="tagline">Intelligent image authenticity &amp; deepfake detection</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Upload section -->
+    <section class="upload-section card" id="upload-section">
+      <h2>Verify an Image</h2>
+      <p class="subtitle">
+        Upload any photo to determine whether it was captured by a real camera
+        or generated / modified by AI.
+      </p>
+
+      <div class="drop-zone" id="drop-zone" role="button" tabindex="0"
+           aria-label="Drop image here or click to browse">
+        <div class="drop-zone-content">
+          <span class="drop-icon">📷</span>
+          <p>Drag &amp; drop an image here</p>
+          <p class="or-text">— or —</p>
+          <label class="btn btn-primary" for="file-input">Browse file</label>
+          <input type="file" id="file-input" accept="image/*" hidden />
+        </div>
+        <img id="preview-img" class="preview-img hidden" alt="Preview" />
+      </div>
+
+      <div id="file-info" class="file-info hidden">
+        <span id="file-name"></span>
+        <button class="btn btn-ghost btn-sm" id="clear-btn" type="button">✕ Clear</button>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="verify-btn" disabled type="button">
+        Analyse Image
+      </button>
+    </section>
+
+    <!-- Results section -->
+    <section class="results-section card hidden" id="results-section">
+      <div class="results-header">
+        <h2>Authenticity Report</h2>
+        <button class="btn btn-ghost btn-sm" id="new-analysis-btn" type="button">
+          ← New Analysis
+        </button>
+      </div>
+
+      <!-- Composite score -->
+      <div class="score-card" id="score-card">
+        <div class="score-circle">
+          <svg viewBox="0 0 120 120" class="score-svg" aria-hidden="true">
+            <circle class="track" cx="60" cy="60" r="50" />
+            <circle class="fill" id="score-arc" cx="60" cy="60" r="50"
+                    stroke-dasharray="0 314.16" />
+          </svg>
+          <div class="score-text">
+            <span id="score-value">--</span>
+            <small>/ 100</small>
+          </div>
+        </div>
+
+        <div class="score-meta">
+          <div class="tier-badge" id="tier-badge">--</div>
+          <div class="confidence" id="confidence-label">Confidence: --</div>
+          <p class="recommendation" id="recommendation-text">--</p>
+        </div>
+      </div>
+
+      <p class="summary-text" id="summary-text"></p>
+
+      <!-- Module scores -->
+      <div class="modules-grid">
+        <div class="module-card" id="mod-metadata">
+          <h3>📋 Metadata</h3>
+          <div class="module-bar-wrap">
+            <div class="module-bar"><div class="module-bar-fill" id="bar-metadata"></div></div>
+            <span class="module-pct" id="pct-metadata">--</span>
+          </div>
+        </div>
+        <div class="module-card" id="mod-noise">
+          <h3>📡 Noise Analysis</h3>
+          <div class="module-bar-wrap">
+            <div class="module-bar"><div class="module-bar-fill" id="bar-noise"></div></div>
+            <span class="module-pct" id="pct-noise">--</span>
+          </div>
+        </div>
+        <div class="module-card" id="mod-artifact">
+          <h3>🔎 Artifact Detection</h3>
+          <div class="module-bar-wrap">
+            <div class="module-bar"><div class="module-bar-fill" id="bar-artifact"></div></div>
+            <span class="module-pct" id="pct-artifact">--</span>
+          </div>
+        </div>
+        <div class="module-card" id="mod-baseline">
+          <h3>📊 Baseline Engine</h3>
+          <div class="module-bar-wrap">
+            <div class="module-bar"><div class="module-bar-fill" id="bar-baseline"></div></div>
+            <span class="module-pct" id="pct-baseline">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Signals / findings -->
+      <details class="signals-details" open>
+        <summary>Detailed Findings</summary>
+        <ul class="signals-list" id="signals-list"></ul>
+      </details>
+    </section>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay hidden" id="loading-overlay" aria-live="polite">
+      <div class="spinner"></div>
+      <p>Analysing image…</p>
+    </div>
+
+    <!-- Error banner -->
+    <div class="error-banner hidden" id="error-banner" role="alert">
+      <strong>Error:</strong> <span id="error-message"></span>
+      <button class="btn btn-ghost btn-sm" id="error-close-btn" type="button">✕</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Focus.ai &copy; 2024 – AI-powered digital authenticity platform</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
